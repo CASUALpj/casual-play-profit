@@ -7,12 +7,21 @@ interface HeroSlideProps {
 
 const HeroSlide = ({ onLogoClick }: HeroSlideProps) => {
   const [isGlowing, setIsGlowing] = useState(false);
+  const [isButtonGlowing, setIsButtonGlowing] = useState(false);
 
   const handleLogoClick = () => {
     setIsGlowing(true);
     setTimeout(() => {
       setIsGlowing(false);
       onLogoClick();
+    }, 400);
+  };
+
+  const handleCommunityClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setIsButtonGlowing(true);
+    setTimeout(() => {
+      window.open("https://x.com/casualpj", "_blank", "noopener,noreferrer");
     }, 400);
   };
 
@@ -26,7 +35,7 @@ const HeroSlide = ({ onLogoClick }: HeroSlideProps) => {
 
       <div className="relative z-10 max-w-4xl mx-auto text-center">
         {/* Logo - Clickable with glow animation */}
-        <div className="animate-fade-up mb-8">
+        <div className="mb-8">
           <button
             onClick={handleLogoClick}
             className="focus:outline-none cursor-pointer group"
@@ -35,7 +44,7 @@ const HeroSlide = ({ onLogoClick }: HeroSlideProps) => {
             <img 
               src="https://i.imgur.com/L73RkZr.png" 
               alt="CASUAL Logo" 
-              className={`w-32 h-32 md:w-40 md:h-40 mx-auto animate-float rounded-full shadow-2xl transition-all duration-300 group-hover:scale-110 ${
+              className={`w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full shadow-2xl transition-all duration-300 group-hover:scale-110 ${
                 isGlowing ? "animate-logo-glow shadow-primary/50" : ""
               }`}
             />
@@ -44,22 +53,23 @@ const HeroSlide = ({ onLogoClick }: HeroSlideProps) => {
         </div>
 
         {/* Brand name */}
-        <h1 className="animate-fade-up-delay-1 font-display text-5xl md:text-7xl lg:text-8xl font-bold tracking-wider text-gradient-kraft mb-6">
+        <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold tracking-wider text-gradient-kraft mb-6">
           CASUAL
         </h1>
 
         {/* Tagline */}
-        <p className="animate-fade-up-delay-2 font-display text-lg md:text-xl lg:text-2xl text-primary tracking-wide mb-8">
+        <p className="font-display text-lg md:text-xl lg:text-2xl text-primary tracking-wide mb-8">
           Bridging the gap between Web2 games and Web3 ownership.
         </p>
 
         {/* CTA Button */}
-        <div className="animate-fade-up-delay-3">
+        <div>
           <a
             href="https://x.com/casualpj"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 px-8 py-4 bg-primary text-primary-foreground font-semibold rounded-lg transition-all duration-300 hover:scale-105 animate-pulse-glow"
+            onClick={handleCommunityClick}
+            className={`inline-flex items-center gap-3 px-8 py-4 bg-primary text-primary-foreground font-semibold rounded-lg transition-all duration-300 hover:scale-105 shadow-[0_0_20px_hsl(var(--primary)/0.5)] ${
+              isButtonGlowing ? "animate-logo-glow" : ""
+            }`}
           >
             <Twitter className="w-5 h-5" />
             Join Community
@@ -69,5 +79,4 @@ const HeroSlide = ({ onLogoClick }: HeroSlideProps) => {
     </section>
   );
 };
-
 export default HeroSlide;
